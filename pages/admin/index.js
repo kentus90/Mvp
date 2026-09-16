@@ -19,7 +19,7 @@ export default function AdminDashboard() {
     <div className="app">
       <div className="hdr">
         <div className="hdr-top">
-          <div className="brand"><span className="brand-name">Gestione partite</span></div>
+          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><span className="brand-name">Gestione partite</span></div>
           <button className="icon-btn" onClick={logout} title="Esci">⏻</button>
         </div>
       </div>
