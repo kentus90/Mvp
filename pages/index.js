@@ -23,8 +23,8 @@ export default function Home() {
     <div className="app">
       <div className="hdr">
         <div className="hdr-top">
-          <div className="brand"><span className="brand-name">Voto MVP</span></div>
-          <Link href="/admin" className="icon-btn" title="Gestione">⚙</Link>
+          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><span className="brand-name">Voto MVP</span></div>
+          <Link href="/admin" className="icon-btn" title="Gestione">â</Link>
         </div>
       </div>
       <div className="content">
@@ -38,9 +38,9 @@ export default function Home() {
           />
         ) : (
           <div className="empty">
-            <div className="big">⚽</div>
+            <div className="big">â½</div>
             <h2>Nessuna partita in vetrina</h2>
-            <p>Al momento non c'è una partita attiva. Puoi consultare lo storico nel calendario.</p>
+            <p>Al momento non c'Ã¨ una partita attiva. Puoi consultare lo storico nel calendario.</p>
             <Link href="/calendario" className="btn" style={{ maxWidth: 260, margin: '0 auto', display: 'flex' }}>Vai al calendario</Link>
           </div>
         )}
