@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { rosterToText, parseRoster, TEAM_COLORS } from '../lib/roster';
+import LogoPicker from './LogoPicker';
 
 const empty = {
   match_date: new Date().toISOString().slice(0, 10),
   match_label: '',
   team_a_name: 'Casa',
   team_a_color: TEAM_COLORS[0],
+  team_a_logo: '/logo.png',
   team_b_name: 'Ospiti',
   team_b_color: TEAM_COLORS[1],
+  team_b_logo: '',
   score_a: 0,
   score_b: 0,
   voting_open: true,
@@ -44,7 +47,7 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
     setSaving(false);
     if (!res.ok) { setErr(data.error || 'Errore di salvataggio'); return; }
     if (mode === 'new') { router.push(`/admin/${data.match.id}`); return; }
-    setMsg('Salvato ✓');
+    setMsg('Salvato â');
   }
 
   async function remove() {
@@ -56,7 +59,7 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
   async function resetVotes() {
     if (!confirm('Azzerare tutti i voti di questa partita?')) return;
     const res = await fetch(`/api/admin/matches/${matchId}/reset-votes`, { method: 'POST' });
-    if (res.ok) setMsg('Voti azzerati ✓');
+    if (res.ok) setMsg('Voti azzerati â');
   }
 
   const swatchRow = (selected, onPick) => (
@@ -78,7 +81,7 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
       </div>
       <div className="field">
         <label>Titolo partita (facoltativo)</label>
-        <input className="input" placeholder="Es. Campionato · 12ª giornata" value={form.match_label || ''} onChange={e => set('match_label', e.target.value)} />
+        <input className="input" placeholder="Es. Campionato Â· 12Âª giornata" value={form.match_label || ''} onChange={e => set('match_label', e.target.value)} />
       </div>
 
       <div className="field">
@@ -90,21 +93,27 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
       </div>
 
       <div className="divider" />
-      <div className="field"><label>Squadra di casa — nome</label>
+      <div className="field"><label>Squadra di casa â nome</label>
         <input className="input" maxLength={22} value={form.team_a_name} onChange={e => set('team_a_name', e.target.value)} /></div>
       {swatchRow(form.team_a_color, c => set('team_a_color', c))}
+      <div style={{ marginTop: 14 }}>
+        <LogoPicker label="Stemma squadra di casa" value={form.team_a_logo} onChange={v => set('team_a_logo', v)} />
+      </div>
       <div className="field" style={{ marginTop: 14 }}>
-        <label>Giocatori casa — una riga per giocatore</label>
+        <label>Giocatori casa â una riga per giocatore</label>
         <textarea className="input" placeholder={"1 POR Verdi\n7 DIF Rossi\n10 CEN Bianchi\n9 ATT Esposito"} value={textA} onChange={e => setTextA(e.target.value)} />
       </div>
-      <div className="hint">Formato: «numero ruolo nome». Ruolo facoltativo tra POR · DIF · CEN · ATT.</div>
+      <div className="hint">Formato: Â«numero ruolo nomeÂ». Ruolo facoltativo tra POR Â· DIF Â· CEN Â· ATT.</div>
 
       <div className="divider" />
-      <div className="field"><label>Squadra ospite — nome</label>
+      <div className="field"><label>Squadra ospite â nome</label>
         <input className="input" maxLength={22} value={form.team_b_name} onChange={e => set('team_b_name', e.target.value)} /></div>
       {swatchRow(form.team_b_color, c => set('team_b_color', c))}
+      <div style={{ marginTop: 14 }}>
+        <LogoPicker label="Stemma squadra ospite" value={form.team_b_logo} onChange={v => set('team_b_logo', v)} />
+      </div>
       <div className="field" style={{ marginTop: 14 }}>
-        <label>Giocatori ospiti — una riga per giocatore</label>
+        <label>Giocatori ospiti â una riga per giocatore</label>
         <textarea className="input" value={textB} onChange={e => setTextB(e.target.value)} />
       </div>
 
@@ -114,11 +123,11 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
         <div className={`tg ${form.voting_open ? 'on' : ''}`} onClick={() => set('voting_open', !form.voting_open)} />
       </div>
       <div className="toggle-row">
-        <div><div className="tl">Mostra in home come partita del giorno</div><div className="td">Solo una partita alla volta può essere "in vetrina"</div></div>
+        <div><div className="tl">Mostra in home come partita del giorno</div><div className="td">Solo una partita alla volta puÃ² essere "in vetrina"</div></div>
         <div className={`tg ${form.is_active ? 'on' : ''}`} onClick={() => set('is_active', !form.is_active)} />
       </div>
 
-      <button className="btn" disabled={saving}>{saving ? 'Salvataggio…' : 'Salva e pubblica'}</button>
+      <button className="btn" disabled={saving}>{saving ? 'Salvataggioâ¦' : 'Salva e pubblica'}</button>
 
       {mode === 'edit' && (
         <>
