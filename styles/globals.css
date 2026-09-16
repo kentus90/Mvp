@@ -157,3 +157,5 @@ textarea.input{min-height:120px;resize:vertical;line-height:1.6}
 .admin-table th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* ok */
