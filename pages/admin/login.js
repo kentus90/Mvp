@@ -38,7 +38,7 @@ export default function AdminLogin() {
             <label htmlFor="p">Password</label>
             <input id="p" type="password" className="input" value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" />
           </div>
-          <button className="btn" disabled={loading}>{loading ? 'Accessoâ¦' : 'Entra'}</button>
+          <button className="btn" disabled={loading}>{loading ? 'Accesso\u2026' : 'Entra'}</button>
         </form>
       </div>
     </div>
