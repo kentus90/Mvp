@@ -19,13 +19,13 @@ export default function ChangePassword() {
     });
     const data = await res.json();
     if (!res.ok) { setErr(data.error || 'Errore'); return; }
-    setMsg('Password aggiornata ✓');
+    setMsg('Password aggiornata \u2713');
     setTimeout(() => router.push('/admin'), 1000);
   }
 
   return (
     <div className="app">
-      <div className="hdr"><div className="hdr-top"><div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/admin" className="brand-name">← Gestione</Link></div></div></div>
+      <div className="hdr"><div className="hdr-top"><div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/admin" className="brand-name">&#x2190; Gestione</Link></div></div></div>
       <div className="content pad">
         <div className="section-head"><h2>Cambia password</h2></div>
         {err && <div className="banner warn">{err}</div>}
