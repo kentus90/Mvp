@@ -45,7 +45,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
     });
     if (!res.ok) { showToast('Voto non salvato, riprova'); return; }
     setChosenId(playerId);
-    showToast('Voto registrato â');
+    showToast('Voto registrato \u2713');
     if (onVoteCast) onVoteCast();
   }
 
@@ -68,7 +68,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
         </div>
         <div className="score-center">
           <span className="sc-num">{match.score_a ?? 0}</span>
-          <span className="sc-sep">â</span>
+          <span className="sc-sep">&#x2013;</span>
           <span className="sc-num">{match.score_b ?? 0}</span>
         </div>
         <div className="team-block right">
@@ -81,13 +81,13 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
 
       <div className="tabs" style={{ marginTop: 18 }}>
         <button className={`tab-btn ${tab === 'formazioni' ? 'active' : ''}`} onClick={() => setTab('formazioni')}>
-          <span className="ico">â¦</span>Formazioni
+          <span className="ico">&#x25A6;</span>Formazioni
         </button>
         <button className={`tab-btn ${tab === 'vota' ? 'active' : ''}`} onClick={() => setTab('vota')}>
-          <span className="ico">â</span>Vota MVP
+          <span className="ico">&#x2605;</span>Vota MVP
         </button>
         <button className={`tab-btn ${tab === 'risultati' ? 'active' : ''}`} onClick={() => setTab('risultati')}>
-          <span className="ico">â£</span>Risultati
+          <span className="ico">&#x25A3;</span>Risultati
         </button>
       </div>
 
@@ -101,7 +101,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
             </div>
             <div className="lineup-list">
               {ordered(teamA).length ? ordered(teamA).map(p => (
-                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || 'â'}</span><span>{p.name}</span></div>
+                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || '\u2013'}</span><span>{p.name}</span></div>
               )) : <div className="lineup-list-empty">Nessun giocatore inserito.</div>}
             </div>
           </section>
@@ -113,7 +113,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
             </div>
             <div className="lineup-list">
               {ordered(teamB).length ? ordered(teamB).map(p => (
-                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || 'â'}</span><span>{p.name}</span></div>
+                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || '\u2013'}</span><span>{p.name}</span></div>
               )) : <div className="lineup-list-empty">Nessun giocatore inserito.</div>}
             </div>
           </section>
@@ -126,7 +126,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
             <div className="banner warn">Le votazioni sono chiuse. Controlla i risultati.</div>
           ) : (
             <>
-              <div className="banner">â Scegli il migliore in campo. Puoi cambiare voto finchÃ© Ã¨ aperto.</div>
+              <div className="banner">&#x2605; Scegli il migliore in campo. Puoi cambiare voto finch&#xE9; &#xE8; aperto.</div>
               {[['A', teamA, match.team_a_color, match.team_a_name, logoA], ['B', teamB, match.team_b_color, match.team_b_name, logoB]].map(([key, list, color, name, logo]) => (
                 <div key={key}>
                   <div className="team-strip">
@@ -143,7 +143,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
                       >
                         <span className="collar" style={{ background: color }} />
                         {p.position && <span className="pos-chip" style={{ background: POS_COLOR[p.position] || '#9aa' }}>{p.position}</span>}
-                        <span className="num">{p.number || 'â'}</span>
+                        <span className="num">{p.number || '\u2013'}</span>
                         <span className="pname">{p.name}</span>
                       </div>
                     )) : <div style={{ gridColumn: '1/-1', color: 'var(--muted)', fontSize: 13, padding: '8px 0' }}>Nessun giocatore inserito.</div>}
@@ -159,25 +159,25 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
         <div>
           <div className="totals">
             <div className="stat"><div className="k">Voti totali</div><div className="v">{totalVotes}</div></div>
-            <div className="stat"><div className="k">In testa</div><div className="v volt">{leadVotes > 0 ? ranked[0].name.split(' ')[0] : 'â'}</div></div>
+            <div className="stat"><div className="k">In testa</div><div className="v volt">{leadVotes > 0 ? ranked[0].name.split(' ')[0] : '\u2014'}</div></div>
           </div>
           {match.voting_open ? (
-            <div className="banner">Votazioni aperte Â· si aggiorna ad ogni apertura pagina</div>
+            <div className="banner">Votazioni aperte &#xB7; si aggiorna ad ogni apertura pagina</div>
           ) : (
-            <div className="banner warn">Votazioni chiuse Â· risultato finale</div>
+            <div className="banner warn">Votazioni chiuse &#xB7; risultato finale</div>
           )}
           <div className="lboard">
             {ranked.length ? ranked.map((p, i) => {
               const lead = p.votes > 0 && p.votes === leadVotes;
               return (
                 <div className={`row ${lead ? 'lead' : ''}`} key={p.id}>
-                  {lead && <span className="crown">ð</span>}
+                  {lead && <span className="crown">&#x1F451;</span>}
                   <span className="fill" style={{ width: `${totalVotes ? (p.votes / maxVotes * 100) : 0}%` }} />
                   <span className="rk">{i + 1}</span>
-                  <span className="rnum" style={{ color: p.color }}>{p.number || 'â'}</span>
+                  <span className="rnum" style={{ color: p.color }}>{p.number || '\u2013'}</span>
                   <span className="rmeta">
                     <div className="rname">{p.name}</div>
-                    <div className="rteam"><span className="dot" style={{ background: p.color }} />{p.teamName}{p.position ? ` Â· ${p.position}` : ''}</div>
+                    <div className="rteam"><span className="dot" style={{ background: p.color }} />{p.teamName}{p.position ? ` \u00b7 ${p.position}` : ''}</div>
                   </span>
                   <span className="rvotes"><div className="vn">{p.votes}</div><div className="vp">{pct(p.votes)}%</div></span>
                 </div>
