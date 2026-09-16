@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 // Ridimensiona l'immagine scelta a max 160px e la converte in una piccola
-// stringa PNG, così sta comodamente nel database senza serve un archivio file.
+// stringa PNG, cosi sta comodamente nel database senza serve un archivio file.
 async function fileToSmallDataUrl(file, max = 160) {
   const dataUrl = await new Promise((res, rej) => {
     const r = new FileReader();
@@ -45,7 +45,7 @@ export default function LogoPicker({ label, value, onChange, ourLogoLabel = 'Usa
     <div className="field">
       <label>{label}</label>
       <div className="logo-picker">
-        {value ? <img className="logo-preview" src={value} alt="" /> : <div className="logo-preview empty">—</div>}
+        {value ? <img className="logo-preview" src={value} alt="" /> : <div className="logo-preview empty">&#x2014;</div>}
         <div className="logo-actions">
           <button type="button" className="btn ghost sm" onClick={() => inputRef.current.click()}>Scegli immagine</button>
           <button type="button" className="btn ghost sm" onClick={() => onChange('/logo.png')}>{ourLogoLabel}</button>
