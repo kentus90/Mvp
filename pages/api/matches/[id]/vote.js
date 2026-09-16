@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
 
-// GET  -> restituisce il voto già espresso da questo device_id (se esiste)
+// GET  -> restituisce il voto gia espresso da questo device_id (se esiste)
 // POST -> registra o aggiorna il voto per questo device_id (un voto per partita per dispositivo)
 export default async function handler(req, res) {
   const { id } = req.query;
