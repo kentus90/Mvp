@@ -20,7 +20,7 @@ export default function AdminDashboard() {
       <div className="hdr">
         <div className="hdr-top">
           <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><span className="brand-name">Gestione partite</span></div>
-          <button className="icon-btn" onClick={logout} title="Esci">⏻</button>
+          <button className="icon-btn" onClick={logout} title="Esci">&#x23FB;</button>
         </div>
       </div>
       <div className="content pad">
@@ -29,7 +29,7 @@ export default function AdminDashboard() {
 
         <div className="section-head"><h2>Partite</h2></div>
         {matches === null ? null : matches.length === 0 ? (
-          <div className="empty"><div className="big">⚽</div><h2>Nessuna partita</h2><p>Crea la prima partita per iniziare.</p></div>
+          <div className="empty"><div className="big">&#x26BD;</div><h2>Nessuna partita</h2><p>Crea la prima partita per iniziare.</p></div>
         ) : (
           <table className="admin-table">
             <thead><tr><th>Data</th><th>Partita</th><th>Stato</th><th></th></tr></thead>
@@ -37,11 +37,11 @@ export default function AdminDashboard() {
               {matches.map(m => (
                 <tr key={m.id}>
                   <td>{m.match_date}</td>
-                  <td>{m.team_a_name} – {m.team_b_name}<br />
-                    <span style={{ color: 'var(--muted)', fontSize: 11 }}>{m.score_a}–{m.score_b}</span>
+                  <td>{m.team_a_name} &#x2013; {m.team_b_name}<br />
+                    <span style={{ color: 'var(--muted)', fontSize: 11 }}>{m.score_a}&#x2013;{m.score_b}</span>
                   </td>
                   <td>
-                    {m.is_active && <span style={{ color: 'var(--volt)' }}>● in vetrina</span>}
+                    {m.is_active && <span style={{ color: 'var(--volt)' }}>&#x25CF; in vetrina</span>}
                     {!m.is_active && (m.voting_open ? 'voti aperti' : 'voti chiusi')}
                   </td>
                   <td><Link href={`/admin/${m.id}`} className="btn ghost sm">Modifica</Link></td>
