@@ -1,6 +1,5 @@
-import { serialize } from 'cookie';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
-import { verifyPassword, createSessionToken, sessionCookieOptions } from '../../../lib/auth';
+import { verifyPassword, createSessionToken, buildSessionCookie } from '../../../lib/auth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Metodo non consentito' });
@@ -16,7 +15,6 @@ export default async function handler(req, res) {
   if (!ok) return res.status(401).json({ error: 'Credenziali non valide' });
 
   const token = await createSessionToken({ id: user.id, username: user.username });
-  const cookieOpts = sessionCookieOptions();
-  res.setHeader('Set-Cookie', serialize(cookieOpts.name, token, cookieOpts));
+  res.setHeader('Set-Cookie', buildSessionCookie(token));
   return res.status(200).json({ ok: true, mustChangePassword: !!user.must_change_password });
 }
