@@ -22,12 +22,12 @@ export default function PartitaPage() {
     <div className="app">
       <div className="hdr">
         <div className="hdr-top">
-          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/calendario" className="brand-name">← Calendario</Link></div>
+          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/calendario" className="brand-name">&#x2190; Calendario</Link></div>
         </div>
       </div>
       <div className="content">
         {state.loading ? null : state.notFound ? (
-          <div className="empty pad"><div className="big">❓</div><h2>Partita non trovata</h2></div>
+          <div className="empty pad"><div className="big">&#x2753;</div><h2>Partita non trovata</h2></div>
         ) : (
           <MatchView
             match={state.match}
