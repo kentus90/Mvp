@@ -25,7 +25,7 @@ export default function ChangePassword() {
 
   return (
     <div className="app">
-      <div className="hdr"><div className="hdr-top"><div className="brand"><Link href="/admin" className="brand-name">← Gestione</Link></div></div></div>
+      <div className="hdr"><div className="hdr-top"><div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/admin" className="brand-name">← Gestione</Link></div></div></div>
       <div className="content pad">
         <div className="section-head"><h2>Cambia password</h2></div>
         {err && <div className="banner warn">{err}</div>}
