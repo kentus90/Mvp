@@ -1,0 +1,174 @@
+import { useEffect, useState } from 'react';
+import { getDeviceId } from '../lib/deviceId';
+
+const POS_COLOR = { POR:'#ffb02e', DIF:'#3b7bff', CEN:'#34d399', ATT:'#ff6b4d' };
+const POS_ORDER = { POR:0, DIF:1, CEN:2, ATT:3 };
+
+function ordered(players) {
+  return [...players].sort((a, b) => (POS_ORDER[a.position] ?? 9) - (POS_ORDER[b.position] ?? 9));
+}
+
+function esc(s) { return s == null ? '' : String(s); }
+
+// Componente unico riusato sia dalla home (partita attiva) sia dalla pagina
+// calendario/partita (recap storico). allowVoting decide se si può votare.
+export default function MatchView({ match, players, tally, allowVoting, onVoteCast }) {
+  const [tab, setTab] = useState('formazioni');
+  const [chosenId, setChosenId] = useState(null);
+  const [toast, setToast] = useState('');
+
+  const teamA = players.filter(p => p.team === 'A');
+  const teamB = players.filter(p => p.team === 'B');
+
+  useEffect(() => {
+    if (!allowVoting) return;
+    const deviceId = getDeviceId();
+    fetch(`/api/matches/${match.id}/vote?device_id=${deviceId}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d && d.playerId) setChosenId(d.playerId); })
+      .catch(() => {});
+  }, [match.id, allowVoting]);
+
+  function showToast(msg) {
+    setToast(msg);
+    setTimeout(() => setToast(''), 1700);
+  }
+
+  async function castVote(playerId) {
+    const deviceId = getDeviceId();
+    const res = await fetch(`/api/matches/${match.id}/vote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, playerId }),
+    });
+    if (!res.ok) { showToast('Voto non salvato, riprova'); return; }
+    setChosenId(playerId);
+    showToast('Voto registrato ✓');
+    if (onVoteCast) onVoteCast();
+  }
+
+  const totalVotes = tally ? tally.total : 0;
+  const ranked = tally ? tally.ranked : [];
+  const leadVotes = ranked.length ? ranked[0].votes : 0;
+  const maxVotes = Math.max(1, ...ranked.map(p => p.votes));
+  const pct = v => totalVotes ? Math.round((v / totalVotes) * 100) : 0;
+
+  return (
+    <div className="pad" style={{ maxWidth: 'none', width: '100%' }}>
+      <div className="scoreboard" style={{ marginBottom: 6 }}>
+        <div className="team-block">
+          <span className="team-tag"><span className="team-swatch" style={{ background: match.team_a_color }} /> Casa</span>
+          <span className="team-name">{esc(match.team_a_name)}</span>
+        </div>
+        <div className="score-center">
+          <span className="sc-num">{match.score_a ?? 0}</span>
+          <span className="sc-sep">–</span>
+          <span className="sc-num">{match.score_b ?? 0}</span>
+        </div>
+        <div className="team-block right">
+          <span className="team-tag">Ospiti <span className="team-swatch" style={{ background: match.team_b_color }} /></span>
+          <span className="team-name">{esc(match.team_b_name)}</span>
+        </div>
+      </div>
+      {match.match_label && <div className="match-label">{esc(match.match_label)}</div>}
+
+      <div className="tabs" style={{ marginTop: 18 }}>
+        <button className={`tab-btn ${tab === 'formazioni' ? 'active' : ''}`} onClick={() => setTab('formazioni')}>
+          <span className="ico">▦</span>Formazioni
+        </button>
+        <button className={`tab-btn ${tab === 'vota' ? 'active' : ''}`} onClick={() => setTab('vota')}>
+          <span className="ico">★</span>Vota MVP
+        </button>
+        <button className={`tab-btn ${tab === 'risultati' ? 'active' : ''}`} onClick={() => setTab('risultati')}>
+          <span className="ico">▣</span>Risultati
+        </button>
+      </div>
+
+      {tab === 'formazioni' && (
+        <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start', width: '100%' }}>
+          <section className="lineup-list-wrap">
+            <div className="team-strip"><span className="bar" style={{ background: match.team_a_color }} /><h3>{esc(match.team_a_name)}</h3><span className="n">{teamA.length} giocatori</span></div>
+            <div className="lineup-list">
+              {ordered(teamA).length ? ordered(teamA).map(p => (
+                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || '–'}</span><span>{p.name}</span></div>
+              )) : <div className="lineup-list-empty">Nessun giocatore inserito.</div>}
+            </div>
+          </section>
+          <section className="lineup-list-wrap">
+            <div className="team-strip"><span className="bar" style={{ background: match.team_b_color }} /><h3>{esc(match.team_b_name)}</h3><span className="n">{teamB.length} giocatori</span></div>
+            <div className="lineup-list">
+              {ordered(teamB).length ? ordered(teamB).map(p => (
+                <div className="lineup-row" key={p.id}><span className="lineup-num">{p.number || '–'}</span><span>{p.name}</span></div>
+              )) : <div className="lineup-list-empty">Nessun giocatore inserito.</div>}
+            </div>
+          </section>
+        </div>
+      )}
+
+      {tab === 'vota' && (
+        <div>
+          {!match.voting_open ? (
+            <div className="banner warn">Le votazioni sono chiuse. Controlla i risultati.</div>
+          ) : (
+            <>
+              <div className="banner">★ Scegli il migliore in campo. Puoi cambiare voto finché è aperto.</div>
+              {[['A', teamA, match.team_a_color, match.team_a_name], ['B', teamB, match.team_b_color, match.team_b_name]].map(([key, list, color, name]) => (
+                <div key={key}>
+                  <div className="team-strip"><span className="bar" style={{ background: color }} /><h3>{esc(name)}</h3></div>
+                  <div className="grid">
+                    {ordered(list).length ? ordered(list).map(p => (
+                      <div
+                        key={p.id}
+                        className={`card vote ${chosenId === p.id ? 'chosen' : ''}`}
+                        onClick={() => allowVoting && castVote(p.id)}
+                      >
+                        <span className="collar" style={{ background: color }} />
+                        {p.position && <span className="pos-chip" style={{ background: POS_COLOR[p.position] || '#9aa' }}>{p.position}</span>}
+                        <span className="num">{p.number || '–'}</span>
+                        <span className="pname">{p.name}</span>
+                      </div>
+                    )) : <div style={{ gridColumn: '1/-1', color: 'var(--muted)', fontSize: 13, padding: '8px 0' }}>Nessun giocatore inserito.</div>}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+
+      {tab === 'risultati' && (
+        <div>
+          <div className="totals">
+            <div className="stat"><div className="k">Voti totali</div><div className="v">{totalVotes}</div></div>
+            <div className="stat"><div className="k">In testa</div><div className="v volt">{leadVotes > 0 ? ranked[0].name.split(' ')[0] : '—'}</div></div>
+          </div>
+          {match.voting_open ? (
+            <div className="banner">Votazioni aperte · si aggiorna ad ogni apertura pagina</div>
+          ) : (
+            <div className="banner warn">Votazioni chiuse · risultato finale</div>
+          )}
+          <div className="lboard">
+            {ranked.length ? ranked.map((p, i) => {
+              const lead = p.votes > 0 && p.votes === leadVotes;
+              return (
+                <div className={`row ${lead ? 'lead' : ''}`} key={p.id}>
+                  {lead && <span className="crown">👑</span>}
+                  <span className="fill" style={{ width: `${totalVotes ? (p.votes / maxVotes * 100) : 0}%` }} />
+                  <span className="rk">{i + 1}</span>
+                  <span className="rnum" style={{ color: p.color }}>{p.number || '–'}</span>
+                  <span className="rmeta">
+                    <div className="rname">{p.name}</div>
+                    <div className="rteam"><span className="dot" style={{ background: p.color }} />{p.teamName}{p.position ? ` · ${p.position}` : ''}</div>
+                  </span>
+                  <span className="rvotes"><div className="vn">{p.votes}</div><div className="vp">{pct(p.votes)}%</div></span>
+                </div>
+              );
+            }) : <div style={{ color: 'var(--muted)', fontSize: 13, padding: '8px 0' }}>Nessun voto ancora.</div>}
+          </div>
+        </div>
+      )}
+
+      <div className={`toast ${toast ? 'show' : ''}`}>{toast}</div>
+    </div>
+  );
+}
