@@ -19,7 +19,7 @@ export default function EditMatch() {
 
   return (
     <div className="app">
-      <div className="hdr"><div className="hdr-top"><div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/admin" className="brand-name">← Gestione</Link></div></div></div>
+      <div className="hdr"><div className="hdr-top"><div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/admin" className="brand-name">&#x2190; Gestione</Link></div></div></div>
       <div className="content pad">
         <div className="section-head"><h2>Modifica partita</h2></div>
         {notFound && <div className="banner warn">Partita non trovata.</div>}
