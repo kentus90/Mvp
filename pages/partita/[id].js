@@ -22,7 +22,7 @@ export default function PartitaPage() {
     <div className="app">
       <div className="hdr">
         <div className="hdr-top">
-          <div className="brand"><Link href="/calendario" className="brand-name">← Calendario</Link></div>
+          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/calendario" className="brand-name">← Calendario</Link></div>
         </div>
       </div>
       <div className="content">
