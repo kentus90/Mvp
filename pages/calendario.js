@@ -18,7 +18,7 @@ export default function Calendario() {
     <div className="app">
       <div className="hdr">
         <div className="hdr-top">
-          <div className="brand"><Link href="/" className="brand-name">← Voto MVP</Link></div>
+          <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><Link href="/" className="brand-name">← Voto MVP</Link></div>
         </div>
       </div>
       <div className="content pad">
