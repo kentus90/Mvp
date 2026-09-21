@@ -22,7 +22,7 @@ export default function Calendario() {
         </div>
       </div>
       <div className="content pad">
-        <div className="section-head"><h2>Calendario</h2><span className="count">{matches ? matches.length : ''} partite</span></div>
+        <div className="section-head"><h2>Tutte le partite</h2><span className="count">{matches ? matches.length : ''} partite</span></div>
         {matches === null ? null : matches.length === 0 ? (
           <div className="empty">
             <div className="big">&#x1F4C5;</div>
@@ -32,13 +32,14 @@ export default function Calendario() {
         ) : (
           <div className="calendar-list">
             {matches.map(m => (
-              <Link key={m.id} href={`/partita/${m.id}`} className="calendar-item">
+              <Link key={m.id} href={`/partita/${m.id}`} className={`calendar-item ${m.is_active ? 'is-live' : ''}`}>
                 <div className="calendar-date">{formatDate(m.match_date)}</div>
                 <div className="calendar-meta">
                   <div className="calendar-teams">{m.team_a_name} &#x2013; {m.team_b_name}</div>
                   <div className="calendar-sub">{m.match_label || (m.is_active ? 'Partita in vetrina' : (m.voting_open ? 'Votazioni aperte' : 'Votazioni chiuse'))}</div>
                 </div>
                 <div className="calendar-score">{m.score_a ?? 0}&#x2013;{m.score_b ?? 0}</div>
+                <span className="calendar-go">&#x203A;</span>
               </Link>
             ))}
           </div>
