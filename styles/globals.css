@@ -175,3 +175,32 @@ textarea.input{min-height:120px;resize:vertical;line-height:1.6}
 .scorer{font-size:12px;color:var(--line);font-weight:600;display:flex;align-items:center;gap:5px;max-width:100%}
 .scorer-ball{font-size:10px;opacity:.8}
 textarea.input.scorers-input{min-height:78px;font-size:14px}
+
+/* ---------- formazioni affiancate ---------- */
+.lineup{width:100%}
+.lu-row{display:flex;gap:16px}
+.lu-cell{flex:1 1 0;min-width:0}
+.lu-head{align-items:stretch;margin-bottom:4px}
+.lu-team{margin:4px 2px 10px;align-items:flex-start}
+.lu-team .bar{margin-top:2px;flex-shrink:0}
+.lu-team .strip-logo{margin-top:-2px}
+.lu-team h3{font-size:15px;line-height:1.08;word-break:break-word}
+.lu-player{display:flex;align-items:baseline;gap:10px;padding:7px 4px;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px;min-height:36px}
+.lu-player.empty{border-bottom-color:transparent}
+.lu-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.lu-row.bench .lu-player{font-size:13.5px;color:#c9d6cf}
+.lu-row.bench .lineup-num{color:var(--volt-dim)}
+.lu-section{display:flex;align-items:center;gap:10px;margin:22px 2px 6px;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.lu-section::before,.lu-section::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
+.lu-section.vote-bench{margin:16px 2px 10px}
+
+/* ---------- slot allenatore ---------- */
+.lu-coach-row{margin-top:18px}
+.coach{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 11px;min-height:58px}
+.coach.empty{background:none;border-color:transparent}
+.coach-ico{font-size:20px;line-height:1;flex-shrink:0}
+.coach-txt{min-width:0}
+.coach-lbl{font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.coach-name{font-size:14px;font-weight:700;color:var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.lu-player .lineup-num{min-width:24px;flex-shrink:0}
+.lu-team{gap:8px}
