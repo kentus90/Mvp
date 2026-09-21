@@ -14,6 +14,26 @@ function TeamLogo({ src, align }) {
   return <img className="team-logo" src={src} alt="" style={align === 'right' ? { marginLeft: 'auto' } : null} />;
 }
 
+function lines(text) {
+  return String(text || '').split('\n').map(l => l.trim()).filter(Boolean);
+}
+
+function Scorers({ a, b }) {
+  const la = lines(a);
+  const lb = lines(b);
+  if (!la.length && !lb.length) return null;
+  return (
+    <div className="scorers">
+      <div className="scorers-col">
+        {la.map((l, i) => <div className="scorer" key={i}><span className="scorer-ball">&#x26BD;</span>{l}</div>)}
+      </div>
+      <div className="scorers-col right">
+        {lb.map((l, i) => <div className="scorer" key={i}>{l}<span className="scorer-ball">&#x26BD;</span></div>)}
+      </div>
+    </div>
+  );
+}
+
 export default function MatchView({ match, players, tally, allowVoting, onVoteCast }) {
   const [tab, setTab] = useState('formazioni');
   const [chosenId, setChosenId] = useState(null);
@@ -77,6 +97,7 @@ export default function MatchView({ match, players, tally, allowVoting, onVoteCa
           <span className="team-name">{esc(match.team_b_name)}</span>
         </div>
       </div>
+      <Scorers a={match.scorers_a} b={match.scorers_b} />
       {match.match_label && <div className="match-label">{esc(match.match_label)}</div>}
 
       <div className="tabs" style={{ marginTop: 18 }}>
