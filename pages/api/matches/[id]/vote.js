@@ -23,9 +23,10 @@ export default async function handler(req, res) {
     if (!match) return res.status(404).json({ error: 'Partita non trovata' });
     if (!match.voting_open) return res.status(403).json({ error: 'Votazioni chiuse per questa partita' });
 
-    const { data: player, error: pErr } = await db.from('players').select('id').eq('id', playerId).eq('match_id', id).maybeSingle();
+    const { data: player, error: pErr } = await db.from('players').select('id, slot').eq('id', playerId).eq('match_id', id).maybeSingle();
     if (pErr) return res.status(500).json({ error: pErr.message });
     if (!player) return res.status(400).json({ error: 'Giocatore non valido per questa partita' });
+    if (player.slot === 'coach') return res.status(400).json({ error: 'Non si puo votare l\'allenatore' });
 
     const { error } = await db
       .from('votes')

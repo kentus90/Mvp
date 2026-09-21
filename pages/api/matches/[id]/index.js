@@ -32,7 +32,8 @@ export default async function handler(req, res) {
   const { data: players, error: pErr } = await db.from('players').select('*').eq('match_id', id).order('sort_order', { ascending: true });
   if (pErr) return res.status(500).json({ error: pErr.message });
 
-  const tally = await tallyFor(db, id, players || []);
+  const votable = (players || []).filter(p => p.slot !== 'coach');
+  const tally = await tallyFor(db, id, votable);
   // arricchisco il tally con nome squadra e colore per il leaderboard
   tally.ranked = tally.ranked.map(r => {
     const p = players.find(pp => pp.id === r.id);
