@@ -210,3 +210,9 @@ textarea.input.scorers-input{min-height:78px;font-size:14px}
 .view-btn:active{transform:scale(.96)}
 .row-actions{display:flex;flex-direction:column;gap:6px;align-items:stretch}
 .row-actions .btn{justify-content:center}
+
+/* ---------- navigazione partite ---------- */
+.calendar-item{transition:transform .1s}
+.calendar-item:active{transform:scale(.98)}
+.calendar-item.is-live{border-color:rgba(76,201,240,.45);background:linear-gradient(90deg,rgba(76,201,240,.1),var(--panel-2))}
+.calendar-go{font-size:22px;color:var(--muted);margin-left:2px;flex-shrink:0}
