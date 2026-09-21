@@ -14,6 +14,8 @@ const empty = {
   team_b_logo: '',
   score_a: 0,
   score_b: 0,
+  scorers_a: '',
+  scorers_b: '',
   voting_open: true,
   is_active: false,
 };
@@ -91,6 +93,15 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
           <input type="number" min="0" className="input" value={form.score_b} onChange={e => set('score_b', e.target.value)} />
         </div>
       </div>
+
+      <div className="field">
+        <label>Marcatori</label>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <textarea className="input scorers-input" placeholder={"23' Rossi\n67' Conti"} value={form.scorers_a || ''} onChange={e => set('scorers_a', e.target.value)} />
+          <textarea className="input scorers-input" placeholder={"54' Marino"} value={form.scorers_b || ''} onChange={e => set('scorers_b', e.target.value)} />
+        </div>
+      </div>
+      <div className="hint">Un gol per riga, a sinistra la squadra di casa e a destra gli ospiti. Esempi: &#xAB;23' Rossi&#xBB;, &#xAB;45+2' Conti (rig.)&#xBB;, &#xAB;80' Greco (aut.)&#xBB;.</div>
 
       <div className="divider" />
       <div className="field"><label>Squadra di casa &#x2014; nome</label>
