@@ -112,9 +112,9 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
       </div>
       <div className="field" style={{ marginTop: 14 }}>
         <label>Giocatori casa &#x2014; una riga per giocatore</label>
-        <textarea className="input" placeholder={"1 POR Verdi\n7 DIF Rossi\n10 CEN Bianchi\n9 ATT Esposito"} value={textA} onChange={e => setTextA(e.target.value)} />
+        <textarea className="input" placeholder={"1 POR Verdi\n7 DIF Rossi\n10 CEN Bianchi\n...\nPANCHINA\n12 Neri\nMister Carli"} value={textA} onChange={e => setTextA(e.target.value)} />
       </div>
-      <div className="hint">Formato: &#xAB;numero ruolo nome&#xBB;. Ruolo facoltativo tra POR &#xB7; DIF &#xB7; CEN &#xB7; ATT.</div>
+      <div className="hint">Una riga per giocatore: &#xAB;numero ruolo nome&#xBB; (ruolo facoltativo: POR &#xB7; DIF &#xB7; CEN &#xB7; ATT). Scrivi PANCHINA su una riga per separare le riserve: se manca, i primi 11 sono titolari. L'allenatore va su una riga che inizia con &#xAB;Mister&#xBB;, per esempio &#xAB;Mister Carli&#xBB;.</div>
 
       <div className="divider" />
       <div className="field"><label>Squadra ospite &#x2014; nome</label>
