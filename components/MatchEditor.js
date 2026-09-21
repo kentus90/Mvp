@@ -143,6 +143,8 @@ export default function MatchEditor({ mode, matchId, initialMatch, initialPlayer
       {mode === 'edit' && (
         <>
           <div style={{ height: 12 }} />
+          <a href={`/partita/${matchId}`} className="btn ghost" style={{ width: '100%' }}>&#x1F441; Vedi la pagina pubblicata</a>
+          <div style={{ height: 12 }} />
           <button type="button" className="btn ghost sm" style={{ width: '100%' }} onClick={resetVotes}>Azzera tutti i voti</button>
           <div style={{ height: 12 }} />
           <button type="button" className="btn danger sm" style={{ width: '100%' }} onClick={remove}>Elimina partita</button>
