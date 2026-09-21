@@ -15,7 +15,8 @@ export default async function handler(req, res) {
   const { data, error } = await db
     .from('matches')
     .select('id, match_date, match_label, team_a_name, team_a_color, team_b_name, team_b_color, score_a, score_b, voting_open, is_active')
-    .order('match_date', { ascending: false });
+    .order('match_date', { ascending: false })
+    .order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
   return res.status(200).json({ matches: data || [] });
 }
