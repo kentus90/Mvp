@@ -1,16 +1,5 @@
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
-
-async function replacePlayers(db, matchId, playersA, playersB) {
-  await db.from('players').delete().eq('match_id', matchId);
-  const rows = [
-    ...(playersA || []).map((p, i) => ({ match_id: matchId, team: 'A', number: p.number || '', position: p.position || '', name: p.name, sort_order: i })),
-    ...(playersB || []).map((p, i) => ({ match_id: matchId, team: 'B', number: p.number || '', position: p.position || '', name: p.name, sort_order: i })),
-  ].filter(r => r.name && r.name.trim());
-  if (rows.length) {
-    const { error } = await db.from('players').insert(rows);
-    if (error) throw error;
-  }
-}
+import { syncPlayers } from '../../../../lib/players';
 
 export default async function handler(req, res) {
   const db = supabaseAdmin();
@@ -37,13 +26,15 @@ export default async function handler(req, res) {
       team_b_logo: b.team_b_logo || null,
       score_a: b.score_a || 0,
       score_b: b.score_b || 0,
+      scorers_a: b.scorers_a || null,
+      scorers_b: b.scorers_b || null,
       voting_open: b.voting_open !== false,
       is_active: !!b.is_active,
     }).select().single();
     if (error) return res.status(500).json({ error: error.message });
 
     try {
-      await replacePlayers(db, match.id, b.playersA, b.playersB);
+      await syncPlayers(db, match.id, b.playersA, b.playersB);
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
