@@ -204,3 +204,9 @@ textarea.input.scorers-input{min-height:78px;font-size:14px}
 .coach-name{font-size:14px;font-weight:700;color:var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
 .lu-player .lineup-num{min-width:24px;flex-shrink:0}
 .lu-team{gap:8px}
+
+/* ---------- collegamenti alla pagina pubblica ---------- */
+.view-btn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:11px;background:rgba(76,201,240,.12);border:1px solid rgba(76,201,240,.3);color:var(--volt);font-size:12.5px;font-weight:700;white-space:nowrap}
+.view-btn:active{transform:scale(.96)}
+.row-actions{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.row-actions .btn{justify-content:center}
