@@ -20,7 +20,7 @@ export default function AdminDashboard() {
       <div className="hdr">
         <div className="hdr-top">
           <div className="brand"><img className="brand-logo" src="/logo.png" alt="" /><span className="brand-name">Gestione partite</span></div>
-          <button className="icon-btn" onClick={logout} title="Esci">&#x23FB;</button>
+          <div style={{ display: 'flex', gap: 8 }}><Link href="/" className="view-btn" title="Apri il sito pubblico">&#x1F441; Sito</Link><button className="icon-btn" onClick={logout} title="Esci">&#x23FB;</button></div>
         </div>
       </div>
       <div className="content pad">
@@ -44,7 +44,7 @@ export default function AdminDashboard() {
                     {m.is_active && <span style={{ color: 'var(--volt)' }}>&#x25CF; in vetrina</span>}
                     {!m.is_active && (m.voting_open ? 'voti aperti' : 'voti chiusi')}
                   </td>
-                  <td><Link href={`/admin/${m.id}`} className="btn ghost sm">Modifica</Link></td>
+                  <td><div className="row-actions"><Link href={`/admin/${m.id}`} className="btn ghost sm">Modifica</Link><Link href={`/partita/${m.id}`} className="btn ghost sm">Vedi</Link></div></td>
                 </tr>
               ))}
             </tbody>
